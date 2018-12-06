@@ -17,27 +17,32 @@ import SimpleMenu from './dropFile';
 import { render } from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import orange from '@material-ui/core/colors/orange';
+import 'typeface-roboto';
+import typography from '@material-ui/core/Typography';
 
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-        main: '#ff4400',
-        light: '#ffffff',
-        dark: '#ffffff',
+    typography: {
+        useNextVariants: true,
     },
-    secondary: {
-        main: '#ffffff',
-        light: '#ffffff',
-        dark: '#ffffff',
-    }
-  },
-  overrides: {
-    MuiButton: {
-        root: {
-            color: 'white',
+    palette: {
+        primary: {
+            main: '#ff4400',
+            light: '#ffffff',
+            dark: '#ffffff',
+        },
+        secondary: {
+            main: '#ffffff',
+            light: '#ffffff',
+            dark: '#ffffff',
+        }
+    },
+    overrides: {
+        MuiButton: {
+            root: {
+                color: 'white',
+            }
         }
     }
-  }
 });
 
 const styles = () => createStyles({
@@ -104,16 +109,14 @@ class Home extends React.Component<IProps, IState> {
                     <div className={this.props.classes.root}>
                         <AppBar position="static">
                             <Toolbar>
-                                <IconButton className={this.props.classes.menuButton} color="inherit" aria-label="Menu">
-                                    <SimpleMenu/>
-                                    </IconButton>
+                                    
                                     
                                     <Typography variant="title" color="inherit" className={this.props.classes.grow}>
                                     Rovitracker
                                     </Typography>
 
                                     {this.state.login ?
-                                    <this.LetterAvatars classes={styles} onClick={() => this.login()}/> :
+                                    <SimpleMenu/> :
                                     <Button color="inherit" onClick={() => this.login()}>Login</Button> }
 
                                 </Toolbar>
