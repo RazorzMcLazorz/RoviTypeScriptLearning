@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { WithStyles, createStyles } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,7 +13,34 @@ import Avatar from '@material-ui/core/Avatar';
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import Grid from '@material-ui/core/Grid';
 
-const styles = {
+import SimpleMenu from './dropFile';
+import { render } from 'react-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import orange from '@material-ui/core/colors/orange';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+        main: '#ff4400',
+        light: '#ffffff',
+        dark: '#ffffff',
+    },
+    secondary: {
+        main: '#ffffff',
+        light: '#ffffff',
+        dark: '#ffffff',
+    }
+  },
+  overrides: {
+    MuiButton: {
+        root: {
+            color: 'white',
+        }
+    }
+  }
+});
+
+const styles = () => createStyles({
     root: {
         flexGrow: 1,
     },
@@ -23,66 +51,76 @@ const styles = {
         marginLeft: -12,
         marginRight: 20,
     },
-};
-const styles1 = {
     avatar: {
         margin: 10,
+        color: '#fff',
+        backgroundColor: '#FF4500',//DeepOrange Color
     },
     orangeAvatar: {
         margin: 10,
         color: '#fff',
-        backgroundColor: deepOrange[500],
+        backgroundColor: '#FF4500',//DeepOrange Color
     },
-};
+});
 
-function LetterAvatars(props) {
-  const { classes } = props;
-  return (
-    <Grid container justify="center" alignItems="center">
-      <Avatar className={classes.orangeAvatar}>N</Avatar>
-    </Grid>
-  );
+
+
+interface IProps extends WithStyles<typeof styles> {}
+
+interface IState {
+    login: boolean
 }
 
-LetterAvatars.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+class Home extends React.Component<IProps, IState> {
+    constructor(props){
+        super(props);
 
-  function ButtonAppBar(props) {
-    const { classes } = props;
-    return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="title" color="inherit" className={classes.grow}>
-              News
-            </Typography>
-            <Button color="inherit">Login</Button>
-            <LetterAvatars classes={styles1}/>
-          </Toolbar>
-        </AppBar>
+        this.state = {
+            login: false,
+        }
+    }
 
-        {/* <LabelBottomNavigation/> */}
-      </div>
-    );
-  }
-  
-  ButtonAppBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
-  
+    login() {
+        this.state.login ?
+            this.setState({ login : false })
+        :
+            this.setState({ login : true })
+        
+    }
 
-class Home extends React.Component {
+    LetterAvatars(props) {
+        const { classes } = props;
+        return (
+          <Grid container justify="center" alignItems="center">
+            <Avatar className={classes.orangeAvatar}>N</Avatar>
+          </Grid>
+        );
+    }
 
     render() {
         return (
-            <div>
-                <ButtonAppBar classes={styles}/>
-                
-            </div>
+            <MuiThemeProvider theme={theme}>
+                <div>
+                    <div className={this.props.classes.root}>
+                        <AppBar position="static">
+                            <Toolbar>
+                                <IconButton className={this.props.classes.menuButton} color="inherit" aria-label="Menu">
+                                    <SimpleMenu/>
+                                    </IconButton>
+                                    
+                                    <Typography variant="title" color="inherit" className={this.props.classes.grow}>
+                                    Rovitracker
+                                    </Typography>
+
+                                    {this.state.login ?
+                                    <this.LetterAvatars classes={styles} onClick={() => this.login()}/> :
+                                    <Button color="inherit" onClick={() => this.login()}>Login</Button> }
+
+                                </Toolbar>
+                        </AppBar>
+                    </div>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }
@@ -91,4 +129,4 @@ const mapStateToProps = (state) => {
     return state
 }
 
-export default Home; 
+export default withStyles(styles)(Home); 
