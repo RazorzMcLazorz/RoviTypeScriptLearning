@@ -3,8 +3,17 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import { WithStyles, createStyles } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
-class SimpleMenu extends React.Component {
+
+
+const styles = () => createStyles({
+});
+
+interface IProps extends WithStyles<typeof styles> {}
+
+class SimpleMenu extends React.Component<IProps> {
     constructor(props){
         super(props);
     }
@@ -30,7 +39,7 @@ class SimpleMenu extends React.Component {
           onClick={this.handleClick}
         >
         <SvgIcon>
-            <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
         </SvgIcon>
         </Button>
         <Menu
@@ -48,4 +57,4 @@ class SimpleMenu extends React.Component {
   }
 }
 
-export default SimpleMenu;
+export default withStyles(styles)(SimpleMenu);

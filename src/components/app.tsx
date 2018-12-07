@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { WithStyles, createStyles } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,13 +11,16 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import Grid from '@material-ui/core/Grid';
-
-import SimpleMenu from './dropFile';
 import { render } from 'react-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import orange from '@material-ui/core/colors/orange';
 import 'typeface-roboto';
 import typography from '@material-ui/core/Typography';
+// internal file imports
+import SimpleMenu from './dropFile';
+import ConsecutiveSnackbars from './notifications';
+import TextFields from './text';
+import FormDialog from './dialogPopup';
 
 const theme = createMuiTheme({
     typography: {
@@ -56,19 +58,18 @@ const styles = () => createStyles({
         marginLeft: -12,
         marginRight: 20,
     },
-    avatar: {
-        margin: 10,
-        color: '#fff',
-        backgroundColor: '#FF4500',//DeepOrange Color
-    },
     orangeAvatar: {
         margin: 10,
         color: '#fff',
-        backgroundColor: '#FF4500',//DeepOrange Color
+        backgroundColor: '#9C00FF',//Dark Purple Color
     },
+    reajust: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
-
-
 
 interface IProps extends WithStyles<typeof styles> {}
 
@@ -109,18 +110,27 @@ class Home extends React.Component<IProps, IState> {
                     <div className={this.props.classes.root}>
                         <AppBar position="static">
                             <Toolbar>
-                                    
-                                    
+
                                     <Typography variant="title" color="inherit" className={this.props.classes.grow}>
                                     Rovitracker
                                     </Typography>
 
                                     {this.state.login ?
-                                    <SimpleMenu/> :
+                                    <div className={this.props.classes.reajust}>
+                                    <SimpleMenu/>
+                                    <Avatar className={this.props.classes.orangeAvatar}>N</Avatar>
+                                    </div> :
                                     <Button color="inherit" onClick={() => this.login()}>Login</Button> }
 
                                 </Toolbar>
                         </AppBar>
+                    </div>
+                    <div id="body">
+                      <TextFields/>
+                    </div>
+                    <div id="footer" className={this.props.classes.reajust}>
+                        <ConsecutiveSnackbars/>
+                        <FormDialog/>
                     </div>
                 </div>
             </MuiThemeProvider>
